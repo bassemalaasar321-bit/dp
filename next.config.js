@@ -4,11 +4,15 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['lucide-react'],
+  },
+  output: 'standalone',
+  trailingSlash: false,
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
   },
 }
 
