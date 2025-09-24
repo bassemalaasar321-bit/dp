@@ -3,6 +3,16 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: Request) {
   try {
+    // تحقق من وجود قاعدة البيانات
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ 
+        games: [], 
+        totalPages: 0, 
+        currentPage: 1, 
+        totalCount: 0 
+      });
+    }
+
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const exclude = searchParams.get('exclude');
@@ -54,12 +64,23 @@ export async function GET(request: Request) {
     });
     return NextResponse.json(games);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch games' }, { status: 500 });
+    console.error('Database error:', error);
+    return NextResponse.json({ 
+      games: [], 
+      totalPages: 0, 
+      currentPage: 1, 
+      totalCount: 0,
+      error: 'Database connection failed' 
+    }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
+    }
+
     const body = await request.json();
     const { title, description, imageUrl, downloadLink, category, platforms, systemReqs, gameSpecs } = body;
 
@@ -78,6 +99,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(game);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create game' }, { status: 500 });
+    console.error('Database error:', error);
+    return NextResponse.json({ error: 'Failed to create game: ' + (error as Error).message }, { status: 500 });
   }
 }
