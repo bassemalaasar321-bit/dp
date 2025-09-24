@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { initializeDatabase } from '@/lib/initDb';
 
 export async function GET(request: Request) {
   try {
@@ -12,6 +13,9 @@ export async function GET(request: Request) {
         totalCount: 0 
       });
     }
+    
+    // تهيئة قاعدة البيانات إذا لزم الأمر
+    await initializeDatabase();
 
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
@@ -80,6 +84,9 @@ export async function POST(request: Request) {
     if (!process.env.DATABASE_URL) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
     }
+    
+    // تهيئة قاعدة البيانات
+    await initializeDatabase();
 
     const body = await request.json();
     const { title, description, imageUrl, downloadLink, category, platforms, systemReqs, gameSpecs } = body;
