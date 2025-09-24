@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { initializeDatabase } from '@/lib/initDb';
+import { getPool, initDB } from '@/lib/db';
 
 export async function GET(request: Request) {
   try {
-    // تحقق من وجود قاعدة البيانات
     if (!process.env.DATABASE_URL) {
       return NextResponse.json({ 
         games: [], 
@@ -13,9 +11,13 @@ export async function GET(request: Request) {
         totalCount: 0 
       });
     }
-    
-    // تهيئة قاعدة البيانات إذا لزم الأمر
-    await initializeDatabase();
+
+    const client = getPool();
+    if (!client) {
+      return NextResponse.json({ games: [], totalPages: 0, currentPage: 1, totalCount: 0 });
+    }
+
+    await initDB();
 
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
@@ -24,49 +26,65 @@ export async function GET(request: Request) {
     const page = searchParams.get('page');
     const search = searchParams.get('search');
 
-    const where: Record<string, any> = {};
-    if (category) where.category = category;
-    if (exclude) where.id = { not: parseInt(exclude) };
-    if (search) {
-      where.OR = [
-        { title: { contains: search } },
-        { description: { contains: search } }
-      ];
+    let query = 'SELECT * FROM games WHERE 1=1';
+    let countQuery = 'SELECT COUNT(*) FROM games WHERE 1=1';
+    const params: any[] = [];
+    let paramIndex = 1;
+
+    if (category) {
+      query += ` AND category = $${paramIndex}`;
+      countQuery += ` AND category = $${paramIndex}`;
+      params.push(category);
+      paramIndex++;
     }
 
-    // إذا كان هناك pagination
+    if (search) {
+      query += ` AND (title ILIKE $${paramIndex} OR description ILIKE $${paramIndex})`;
+      countQuery += ` AND (title ILIKE $${paramIndex} OR description ILIKE $${paramIndex})`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+
+    if (exclude) {
+      query += ` AND id != $${paramIndex}`;
+      countQuery += ` AND id != $${paramIndex}`;
+      params.push(parseInt(exclude));
+      paramIndex++;
+    }
+
+    query += ' ORDER BY "createdAt" DESC';
+
     if (page && limit) {
       const pageNum = parseInt(page);
       const limitNum = parseInt(limit);
-      const skip = (pageNum - 1) * limitNum;
-
-      const [games, totalCount] = await Promise.all([
-        prisma.game.findMany({
-          where,
-          orderBy: { createdAt: 'desc' },
-          skip,
-          take: limitNum
-        }),
-        prisma.game.count({ where })
+      const offset = (pageNum - 1) * limitNum;
+      
+      query += ` LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+      params.push(limitNum, offset);
+      
+      const [gamesResult, countResult] = await Promise.all([
+        client.query(query, params),
+        client.query(countQuery, params.slice(0, -2))
       ]);
-
+      
+      const totalCount = parseInt(countResult.rows[0].count);
       const totalPages = Math.ceil(totalCount / limitNum);
-
+      
       return NextResponse.json({
-        games,
+        games: gamesResult.rows,
         totalPages,
         currentPage: pageNum,
         totalCount
       });
     }
 
-    // بدون pagination (للألعاب المشابهة)
-    const games = await prisma.game.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-      take: limit ? parseInt(limit) : undefined
-    });
-    return NextResponse.json(games);
+    if (limit) {
+      query += ` LIMIT $${paramIndex}`;
+      params.push(parseInt(limit));
+    }
+
+    const result = await client.query(query, params);
+    return NextResponse.json(result.rows);
   } catch (error) {
     console.error('Database error:', error);
     return NextResponse.json({ 
@@ -84,27 +102,24 @@ export async function POST(request: Request) {
     if (!process.env.DATABASE_URL) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
     }
-    
-    // تهيئة قاعدة البيانات
-    await initializeDatabase();
+
+    const client = getPool();
+    if (!client) {
+      return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
+    }
+
+    await initDB();
 
     const body = await request.json();
     const { title, description, imageUrl, downloadLink, category, platforms, systemReqs, gameSpecs } = body;
 
-    const game = await prisma.game.create({
-      data: {
-        title,
-        description,
-        imageUrl,
-        downloadLink,
-        category,
-        platforms: platforms || null,
-        systemReqs: systemReqs || null,
-        gameSpecs: gameSpecs || null
-      }
-    });
+    const result = await client.query(
+      `INSERT INTO games (title, description, "imageUrl", "downloadLink", category, platforms, "systemReqs", "gameSpecs") 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [title, description, imageUrl, downloadLink, category, platforms || null, systemReqs || null, gameSpecs || null]
+    );
 
-    return NextResponse.json(game);
+    return NextResponse.json(result.rows[0]);
   } catch (error) {
     console.error('Database error:', error);
     return NextResponse.json({ error: 'Failed to create game: ' + (error as Error).message }, { status: 500 });

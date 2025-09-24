@@ -14,10 +14,12 @@
   "dependencies": {
     "@prisma/client": "^6.16.2",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/pg": "^8.15.5",
     "bcryptjs": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
     "next": "15.5.3",
     "next-auth": "^4.24.11",
+    "pg": "^8.16.3",
     "prisma": "^6.16.2",
     "react": "19.1.0",
     "react-dom": "19.1.0"
