@@ -6,13 +6,22 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    optimizeCss: true,
+  images: {
+    unoptimized: true,
+    domains: ['via.placeholder.com', 'www.wifi4games.com'],
   },
-  output: 'standalone',
-  trailingSlash: false,
+  trailingSlash: true,
+  distDir: '.next',
   generateBuildId: async () => {
     return 'build-' + Date.now()
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/404',
+        destination: '/not-found',
+      },
+    ]
   },
 }
 
