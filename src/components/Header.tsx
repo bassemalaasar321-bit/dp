@@ -2,13 +2,15 @@
 import { useState } from 'react';
 
 const categories = [
-  { name: 'ألعاب أكشن', value: 'ACTION' },
-  { name: 'ألعاب رياضة', value: 'FOOTBALL' },
-  { name: 'ألعاب مغامرات', value: 'OPEN_WORLD' },
-  { name: 'ألعاب رعب', value: 'HORROR' },
-  { name: 'ألعاب خفيفة', value: 'LIGHT' },
-  { name: 'ألعاب حرب', value: 'WAR' },
-  { name: 'ألعاب استراتيجية', value: 'STRATEGY' }
+  { name: 'ألعاب أكشن', value: 'ACTION', icon: '⚔️', color: 'from-red-500 to-orange-500' },
+  { name: 'ألعاب رياضة', value: 'FOOTBALL', icon: '⚽', color: 'from-green-500 to-emerald-500' },
+  { name: 'ألعاب مغامرات', value: 'OPEN_WORLD', icon: '🌍', color: 'from-blue-500 to-cyan-500' },
+  { name: 'ألعاب رعب', value: 'HORROR', icon: '👻', color: 'from-purple-500 to-pink-500' },
+  { name: 'ألعاب خفيفة', value: 'LIGHT', icon: '✨', color: 'from-yellow-500 to-amber-500' },
+  { name: 'ألعاب حرب', value: 'WAR', icon: '💣', color: 'from-gray-500 to-slate-500' },
+  { name: 'ألعاب استراتيجية', value: 'STRATEGY', icon: '♟️', color: 'from-indigo-500 to-violet-500' },
+  { name: 'ألعاب سيارات', value: 'CARS', icon: '🏎️', color: 'from-orange-500 to-red-500' },
+  { name: 'ألعاب قديمة', value: 'CLASSIC', icon: '🕹️', color: 'from-teal-500 to-cyan-500' }
 ];
 
 interface HeaderProps {
@@ -21,48 +23,63 @@ export default function Header({ onCategoryChange, onSearch }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-blue-900 text-white">
-      <div className="container mx-auto px-4 py-6">
-
+    <header className="bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white border-b border-gray-800">
+      <div className="container mx-auto px-4 py-8">
         
-        <div className="flex justify-center mt-4">
-          <nav className="hidden lg:flex gap-4 bg-blue-800 rounded-lg p-4">
-            <button 
-              onClick={() => onCategoryChange('')}
-              className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 transition-colors cursor-pointer text-white font-medium"
-            >
-              🎮 جميع الألعاب
-            </button>
-            {categories.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => onCategoryChange(cat.value)}
-                className="px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors cursor-pointer text-white"
+        {/* Gaming Categories Grid */}
+        <div className="mt-6">
+          <div className="lg:hidden categories-rainbow rounded-2xl p-6 mb-6">
+            <h2 className="text-2xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+              🎮 فئات الألعاب
+            </h2>
+          </div>
+          <h2 className="hidden lg:block text-2xl font-bold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+            🎮 فئات الألعاب
+          </h2>
+          
+          {/* Desktop Grid */}
+          <div className="hidden lg:block">
+            <div className="gaming-grid max-w-6xl mx-auto">
+              <div 
+                onClick={() => onCategoryChange('')}
+                className="category-card group"
               >
-                {cat.name}
-              </button>
-            ))}
-          </nav>
-        </div>
+                <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">🎮</div>
+                <div className="text-sm font-semibold text-gray-300 group-hover:text-white">جميع الألعاب</div>
+              </div>
+              {categories.map((cat) => (
+                <div
+                  key={cat.value}
+                  onClick={() => onCategoryChange(cat.value)}
+                  className="category-card group"
+                >
+                  <div className="text-4xl mb-2 group-hover:scale-110 transition-transform">{cat.icon}</div>
+                  <div className="text-sm font-semibold text-gray-300 group-hover:text-white">{cat.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         
-        <div className="flex justify-center mt-4">
-          <button 
-            className="lg:hidden bg-blue-800 px-4 py-2 rounded-lg cursor-pointer text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            ☰ الفئات
-          </button>
+          {/* Mobile Button */}
+          <div className="flex justify-center mt-4 lg:hidden">
+            <button 
+              className="bg-gradient-to-r from-cyan-500 to-purple-500 px-6 py-3 rounded-xl cursor-pointer text-white font-semibold neon-glow"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              ☰ الفئات
+            </button>
+          </div>
         </div>
 
         {mobileMenuOpen && (
           <>
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setMobileMenuOpen(false)}></div>
-            <nav className="fixed right-0 top-0 h-full w-80 bg-blue-900 z-50 p-6 overflow-y-auto">
+            <div className="fixed inset-0 bg-black bg-opacity-75 z-40" onClick={() => setMobileMenuOpen(false)}></div>
+            <nav className="fixed right-0 top-0 h-full w-80 bg-gradient-to-b from-gray-900 to-black z-50 p-6 overflow-y-auto border-l border-gray-700">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white">فئات الألعاب</h3>
+                <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">فئات الألعاب</h3>
                 <button 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-white text-2xl hover:text-blue-200"
+                  className="text-white text-2xl hover:text-cyan-400 transition-colors"
                 >
                   ×
                 </button>
@@ -70,17 +87,19 @@ export default function Header({ onCategoryChange, onSearch }: HeaderProps) {
               <div className="space-y-3">
                 <button 
                   onClick={() => { onCategoryChange(''); setMobileMenuOpen(false); }}
-                  className="block w-full text-right py-3 px-4 rounded-lg bg-blue-700 hover:bg-blue-600 cursor-pointer text-white font-medium"
+                  className="flex items-center gap-3 w-full text-right py-4 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 cursor-pointer text-white font-medium transition-all"
                 >
-                  🎮 جميع الألعاب
+                  <span className="text-2xl">🎮</span>
+                  <span>جميع الألعاب</span>
                 </button>
                 {categories.map((cat) => (
                   <button
                     key={cat.value}
                     onClick={() => { onCategoryChange(cat.value); setMobileMenuOpen(false); }}
-                    className="block w-full text-right py-3 px-4 rounded-lg hover:bg-blue-600 cursor-pointer text-white"
+                    className="flex items-center gap-3 w-full text-right py-4 px-4 rounded-xl bg-gray-800 hover:bg-gray-700 cursor-pointer text-white transition-all hover:scale-105"
                   >
-                    {cat.name}
+                    <span className="text-2xl">{cat.icon}</span>
+                    <span>{cat.name}</span>
                   </button>
                 ))}
               </div>

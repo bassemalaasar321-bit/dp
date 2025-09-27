@@ -26,7 +26,21 @@ export default function Home() {
   const gamesPerPage = 12;
 
   useEffect(() => {
-    fetchGames();
+    // قراءة البحث من URL عند تحميل الصفحة
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchFromUrl = urlParams.get('search');
+    if (searchFromUrl) {
+      setSearchQuery(searchFromUrl);
+      handleSearch(searchFromUrl); // بحث مباشر
+    } else {
+      fetchGames();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery || selectedCategory) {
+      fetchGames();
+    }
   }, [currentPage, selectedCategory, searchQuery]);
 
 
@@ -86,19 +100,19 @@ export default function Home() {
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-2 md:px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
+          className="px-4 md:px-6 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer text-white font-semibold transition-all hover:scale-105"
         >
-          السابق
+          ⬅ السابق
         </button>
         
         {pages.map(page => (
           <button
             key={page}
             onClick={() => handlePageChange(page)}
-            className={`px-2 md:px-3 py-2 rounded text-sm cursor-pointer ${
+            className={`px-3 md:px-4 py-3 rounded-xl text-sm cursor-pointer font-semibold transition-all hover:scale-105 ${
               currentPage === page
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 hover:bg-gray-300'
+                ? 'bg-gradient-to-r from-cyan-600 to-purple-600 text-white neon-glow'
+                : 'bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white'
             }`}
           >
             {page}
@@ -108,25 +122,26 @@ export default function Home() {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-2 md:px-3 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer"
+          className="px-4 md:px-6 py-3 rounded-xl bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 disabled:opacity-50 disabled:cursor-not-allowed text-sm cursor-pointer text-white font-semibold transition-all hover:scale-105"
         >
-          التالي
+          التالي ➡
         </button>
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-blue-900 text-white p-8">
-        <div className="container mx-auto text-center">
+    <div className="min-h-screen bg-gray-900">
+      <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-green-500/10"></div>
+        <div className="container mx-auto text-center relative z-10">
           <a href="/" className="inline-block">
-            <h1 className="text-5xl font-bold mb-4 hover:text-blue-200 transition-colors cursor-pointer">
+            <h1 className="text-6xl font-bold mb-6 neon-text text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-green-400 hover:scale-105 transition-transform cursor-pointer">
               🎮 تحميل العاب برو
             </h1>
           </a>
-          <p className="text-xl text-blue-100 mb-4">
-            أفضل موقع لتحميل الألعاب المجانية بروابط مباشرة وسريعة
+          <p className="text-xl text-gray-300 mb-6 max-w-2xl mx-auto">
+            🚀 أفضل موقع لتحميل الألعاب المجانية بروابط مباشرة وسريعة
           </p>
           <SearchBar onSearch={handleSearch} />
         </div>
@@ -141,11 +156,12 @@ export default function Home() {
           <div className="flex-1 order-2 lg:order-1 min-w-0">
             {filteredGames.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">لا توجد ألعاب متاحة حالياً</p>
+                <div className="text-6xl mb-4">🎮</div>
+                <p className="text-gray-400 text-lg">لا توجد ألعاب متاحة حالياً</p>
               </div>
             ) : (
               <>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {filteredGames.map((game) => (
                     <GameCard key={game.id} game={game} />
                   ))}
@@ -155,7 +171,7 @@ export default function Home() {
             )}
           </div>
           
-          <div className="lg:w-64 order-1 lg:order-2 flex-shrink-0">
+          <div className="lg:w-80 order-1 lg:order-2 flex-shrink-0">
             <Sidebar 
               onCategoryChange={handleCategoryChange}
               selectedCategory={selectedCategory}

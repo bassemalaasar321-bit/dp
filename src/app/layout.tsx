@@ -60,7 +60,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#1e40af" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased bg-gray-900 text-white">{children}</body>
     </html>
   );
 }

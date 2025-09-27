@@ -23,6 +23,15 @@ const nextConfig = {
       },
     ]
   },
+  // تحسينات للإنتاج
+  experimental: {
+    serverComponentsExternalPackages: ['jsonwebtoken', 'bcryptjs'],
+  },
+  // تحسين الذاكرة
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
 }
 
 module.exports = nextConfig

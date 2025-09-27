@@ -1,13 +1,19 @@
 import { NextResponse } from 'next/server';
-import { incrementViews } from '@/lib/jsonDb';
+import { githubDb } from '@/lib/githubDb';
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const resolvedParams = await params;
   try {
-    const success = incrementViews(parseInt(resolvedParams.id));
+    const { id } = await params;
+    const gameId = parseInt(id);
+    
+    if (isNaN(gameId)) {
+      return NextResponse.json({ error: 'Invalid game ID' }, { status: 400 });
+    }
+    
+    const success = await githubDb.incrementViews(gameId);
     
     if (!success) {
       return NextResponse.json({ error: 'Game not found' }, { status: 404 });
@@ -15,6 +21,6 @@ export async function POST(
     
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update views' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to increment views' }, { status: 500 });
   }
 }

@@ -31,30 +31,54 @@ export default function TrendingGames() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 mt-6">
-      <h3 className="text-xl font-bold mb-4 text-gray-800">الألعاب الرائجة</h3>
-      <div className="space-y-3">
+    <div className="trending-border rounded-2xl shadow-2xl p-6 mt-6">
+      <h3 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 flex items-center gap-2">
+        🔥 الألعاب الرائجة
+      </h3>
+      <div className="space-y-4">
         {Array.isArray(trendingGames) && trendingGames.map((game, index) => (
           <a 
             key={game.id}
             href={`/game/${game.id}`}
-            className="block p-3 rounded hover:bg-gray-50 transition-colors"
+            className="block p-4 rounded-xl hover:bg-gray-700 transition-all duration-300 group border border-gray-600 hover:border-cyan-500 relative overflow-hidden"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg font-bold text-blue-600">{index + 1}</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div className="flex items-center gap-3 mb-3 relative z-10">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center text-black font-bold text-sm">
+                {index + 1}
+              </div>
+              <div className="text-xs text-gray-400">👀 {game.views || 0} مشاهدة</div>
             </div>
-            <img 
-              src={game.imageUrl} 
-              alt={game.title}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-20 object-cover rounded mb-2"
-              style={{ contentVisibility: 'auto' }}
-            />
-            <span className="text-xs font-medium text-gray-800 block text-center break-words leading-tight">{game.title}</span>
+            
+            <div className="relative overflow-hidden rounded-xl mb-3">
+              <img 
+                src={game.imageUrl} 
+                alt={game.title}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-24 object-cover group-hover:scale-110 transition-transform duration-500 border border-gray-600"
+                style={{ contentVisibility: 'auto' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-2 right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                HOT
+              </div>
+            </div>
+            
+            <span className="text-sm font-semibold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-400 block text-center break-words leading-tight transition-all duration-300">
+              {game.title}
+            </span>
           </a>
         ))}
       </div>
+      
+      {trendingGames.length === 0 && (
+        <div className="text-center py-8">
+          <div className="text-4xl mb-2">🎮</div>
+          <p className="text-gray-400 text-sm">لا توجد ألعاب رائجة حالياً</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -337,58 +337,62 @@ export default function AdminDashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <div className="text-xl text-gray-700">🔐 جاري التحقق من الصلاحيات...</div>
+          <div className="w-16 h-16 border-4 border-cyan-200 border-t-cyan-600 rounded-full animate-spin mx-auto mb-4 neon-glow"></div>
+          <div className="text-xl text-white">🔐 جاري التحقق من الصلاحيات...</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-blue-900 text-white p-4">
+    <div className="min-h-screen bg-gray-900">
+      <div className="bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white p-6 border-b border-gray-700">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/icon.jpg" alt="Logo" className="w-8 h-8 rounded-lg" />
-            <h1 className="text-2xl font-bold">لوحة تحكم الأدمن</h1>
+          <div className="flex items-center gap-3">
+            <img src="/icon.jpg" alt="Logo" className="w-10 h-10 rounded-xl border-2 border-cyan-500 neon-glow" />
+            <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+              🔧 لوحة تحكم الأدمن
+            </h1>
           </div>
           <button
             onClick={handleLogout}
-            className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
+            className="bg-gradient-to-r from-red-600 to-red-500 px-6 py-3 rounded-xl hover:from-red-500 hover:to-red-400 cursor-pointer font-semibold transition-all hover:scale-105 neon-glow flex items-center gap-2"
           >
-            خروج
+            🚪 خروج
           </button>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-xl font-bold mb-4">📊 إحصائيات الموقع</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-blue-600">{games.length}</div>
-              <div className="text-gray-600">إجمالي الألعاب</div>
+        <div className="card mb-8">
+          <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 flex items-center gap-2">
+            📊 إحصائيات الموقع
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-blue-600 to-cyan-600 p-6 rounded-2xl text-center border border-blue-500 neon-glow">
+              <div className="text-3xl font-bold text-white mb-2">{games.length}</div>
+              <div className="text-blue-100">إجمالي الألعاب</div>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-green-600">✅</div>
-              <div className="text-gray-600">النظام يعمل</div>
+            <div className="bg-gradient-to-br from-green-600 to-emerald-600 p-6 rounded-2xl text-center border border-green-500 neon-glow">
+              <div className="text-3xl font-bold text-white mb-2">✅</div>
+              <div className="text-green-100">النظام يعمل</div>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-purple-600">🔐</div>
-              <div className="text-gray-600">محمي بالكامل</div>
+            <div className="bg-gradient-to-br from-purple-600 to-pink-600 p-6 rounded-2xl text-center border border-purple-500 neon-glow">
+              <div className="text-3xl font-bold text-white mb-2">🔐</div>
+              <div className="text-purple-100">محمي بالكامل</div>
             </div>
           </div>
           
-          <div className="mt-6 flex gap-4 justify-center">
+          <div className="mt-8 flex gap-4 justify-center flex-wrap">
             <button
               onClick={handleBackup}
-              className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 cursor-pointer flex items-center gap-2"
+              className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-xl hover:from-orange-500 hover:to-red-500 cursor-pointer flex items-center gap-2 font-semibold transition-all hover:scale-105 neon-glow"
             >
               💾 تحميل نسخة احتياطية
             </button>
-            <label className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer flex items-center gap-2">
+            <label className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-blue-500 hover:to-purple-500 cursor-pointer flex items-center gap-2 font-semibold transition-all hover:scale-105 neon-glow">
               📁 استعادة نسخة احتياطية
               <input
                 type="file"
@@ -400,12 +404,14 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">🎮 إدارة الألعاب ({games.length})</h2>
+        <div className="card">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 flex items-center gap-2">
+              🎮 إدارة الألعاب ({games.length})
+            </h2>
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer flex items-center gap-2"
+              className="btn-primary flex items-center gap-2"
             >
               ➕ إضافة لعبة جديدة
             </button>
@@ -420,12 +426,12 @@ export default function AdminDashboard() {
                 placeholder="🔍 بحث عن لعبة..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                className="flex-1 px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 search-glow transition-all"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-600 cursor-pointer"
+                  className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-3 rounded-xl hover:from-red-500 hover:to-red-400 cursor-pointer transition-all hover:scale-105"
                 >
                   ✖️
                 </button>
@@ -436,10 +442,10 @@ export default function AdminDashboard() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedCategory('')}
-                className={`px-3 py-1 rounded text-sm cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-sm cursor-pointer font-semibold transition-all hover:scale-105 ${
                   selectedCategory === '' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-gray-200 hover:bg-gray-300'
+                    ? 'bg-gradient-to-r from-cyan-600 to-purple-600 text-white neon-glow' 
+                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white'
                 }`}
               >
                 🎮 جميع الألعاب
@@ -448,10 +454,10 @@ export default function AdminDashboard() {
                 <button
                   key={key}
                   onClick={() => setSelectedCategory(key)}
-                  className={`px-3 py-1 rounded text-sm cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-sm cursor-pointer font-semibold transition-all hover:scale-105 ${
                     selectedCategory === key 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-200 hover:bg-gray-300'
+                      ? 'bg-gradient-to-r from-cyan-600 to-purple-600 text-white neon-glow' 
+                      : 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white'
                   }`}
                 >
                   {value}
@@ -462,25 +468,25 @@ export default function AdminDashboard() {
           
           {loading ? (
             <div className="text-center py-8">
-              <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-              <div>جاري التحميل...</div>
+              <div className="w-8 h-8 border-4 border-cyan-200 border-t-cyan-600 rounded-full animate-spin mx-auto mb-4 neon-glow"></div>
+              <div className="text-white">🎮 جاري التحميل...</div>
             </div>
           ) : (
             <div className="overflow-x-auto">
               {/* جدول للموبايل والتابلت */}
               <table className="w-full min-w-[350px] block md:hidden">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-right py-2 w-10 text-xs">ID</th>
-                    <th className="text-right py-2 text-xs">اسم اللعبة</th>
-                    <th className="text-right py-2 w-16 text-xs">فئة</th>
-                    <th className="text-right py-2 w-16 text-xs">عمل</th>
+                  <tr className="border-b border-gray-600">
+                    <th className="text-right py-3 w-10 text-xs text-cyan-400 font-bold">ID</th>
+                    <th className="text-right py-3 text-xs text-cyan-400 font-bold">اسم اللعبة</th>
+                    <th className="text-right py-3 w-16 text-xs text-cyan-400 font-bold">فئة</th>
+                    <th className="text-right py-3 w-16 text-xs text-cyan-400 font-bold">عمل</th>
                   </tr>
                 </thead>
                 <tbody>
                   {games.map((game) => (
-                    <tr key={game.id} className="border-b hover:bg-gray-50">
-                      <td className="py-2 text-xs">{game.id}</td>
+                    <tr key={game.id} className="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+                      <td className="py-3 text-xs text-gray-300">{game.id}</td>
                       <td className="py-2">
                         <div className="break-words text-xs leading-tight">
                           {game.title.length > 25 ? `${game.title.substring(0, 25)}...` : game.title}
@@ -498,13 +504,13 @@ export default function AdminDashboard() {
                         <div className="flex flex-col gap-1">
                           <button 
                             onClick={() => handleEdit(game)}
-                            className="bg-blue-600 text-white px-1 py-0.5 rounded text-xs hover:bg-blue-700 cursor-pointer"
+                            className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-2 py-1 rounded-lg text-xs hover:from-blue-500 hover:to-blue-400 cursor-pointer transition-all hover:scale-105"
                           >
                             ✏️
                           </button>
                           <button 
                             onClick={() => handleDelete(game.id, game.title)}
-                            className="bg-red-600 text-white px-1 py-0.5 rounded text-xs hover:bg-red-700 cursor-pointer"
+                            className="bg-gradient-to-r from-red-600 to-red-500 text-white px-2 py-1 rounded-lg text-xs hover:from-red-500 hover:to-red-400 cursor-pointer transition-all hover:scale-105"
                           >
                             🗑️
                           </button>
@@ -518,36 +524,36 @@ export default function AdminDashboard() {
               {/* جدول لللاب والكمبيوتر */}
               <table className="w-full min-w-[600px] hidden md:table">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-right py-2 w-16">ID</th>
-                    <th className="text-right py-2">اسم اللعبة</th>
-                    <th className="text-right py-2 w-32">الفئة</th>
-                    <th className="text-right py-2 w-32">الإجراءات</th>
+                  <tr className="border-b border-gray-600">
+                    <th className="text-right py-4 w-16 text-cyan-400 font-bold">ID</th>
+                    <th className="text-right py-4 text-cyan-400 font-bold">اسم اللعبة</th>
+                    <th className="text-right py-4 w-32 text-cyan-400 font-bold">الفئة</th>
+                    <th className="text-right py-4 w-32 text-cyan-400 font-bold">الإجراءات</th>
                   </tr>
                 </thead>
                 <tbody>
                   {games.map((game) => (
-                    <tr key={game.id} className="border-b hover:bg-gray-50">
-                      <td className="py-2 text-sm">{game.id}</td>
-                      <td className="py-2">
-                        <div className="break-words text-sm leading-tight">
+                    <tr key={game.id} className="border-b border-gray-700 hover:bg-gray-800 transition-colors">
+                      <td className="py-4 text-sm text-gray-300">{game.id}</td>
+                      <td className="py-4">
+                        <div className="break-words text-sm leading-tight text-white">
                           {game.title}
                         </div>
                       </td>
-                      <td className="py-2 text-sm">{categoryNames[game.category] || game.category}</td>
+                      <td className="py-4 text-sm text-gray-300">{categoryNames[game.category] || game.category}</td>
                       <td className="py-2">
                         <div className="flex gap-2">
                           <button 
                             onClick={() => handleEdit(game)}
-                            className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 cursor-pointer"
+                            className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-xl text-sm hover:from-blue-500 hover:to-blue-400 cursor-pointer transition-all hover:scale-105 font-semibold"
                           >
-                            تعديل
+                            ✏️ تعديل
                           </button>
                           <button 
                             onClick={() => handleDelete(game.id, game.title)}
-                            className="bg-red-600 text-white px-3 py-1 rounded text-sm hover:bg-red-700 cursor-pointer"
+                            className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-2 rounded-xl text-sm hover:from-red-500 hover:to-red-400 cursor-pointer transition-all hover:scale-105 font-semibold"
                           >
-                            حذف
+                            🗑️ حذف
                           </button>
                         </div>
                       </td>
@@ -562,57 +568,59 @@ export default function AdminDashboard() {
 
       {/* Modal التعديل */}
       {showEditModal && editingGame && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h3 className="text-xl font-bold mb-4">تعديل اللعبة: {editingGame.title}</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-600 shadow-2xl">
+            <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 flex items-center gap-2">
+              ✏️ تعديل اللعبة: {editingGame.title}
+            </h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-700 mb-2">اسم اللعبة</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">اسم اللعبة</label>
                 <input
                   type="text"
                   value={editingGame.title}
                   onChange={(e) => setEditingGame({...editingGame, title: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">الوصف</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">الوصف</label>
                 <textarea
                   value={editingGame.description}
                   onChange={(e) => setEditingGame({...editingGame, description: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                   rows={3}
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">رابط الصورة</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">رابط الصورة</label>
                 <input
                   type="url"
                   value={editingGame.imageUrl}
                   onChange={(e) => setEditingGame({...editingGame, imageUrl: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">رابط التحميل</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">رابط التحميل</label>
                 <input
                   type="url"
                   value={editingGame.downloadLink}
                   onChange={(e) => setEditingGame({...editingGame, downloadLink: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">الفئة</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">الفئة</label>
                 <select
                   value={editingGame.category}
                   onChange={(e) => setEditingGame({...editingGame, category: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                 >
                   <option value="ACTION">ألعاب أكشن</option>
                   <option value="WAR">ألعاب حرب</option>
@@ -630,15 +638,15 @@ export default function AdminDashboard() {
             <div className="flex gap-4 mt-6">
               <button
                 onClick={handleSaveEdit}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer"
+                className="btn-primary px-6 py-3"
               >
-                حفظ التغييرات
+                ✅ حفظ التغييرات
               </button>
               <button
                 onClick={() => {setShowEditModal(false); setEditingGame(null);}}
-                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 cursor-pointer"
+                className="bg-gradient-to-r from-gray-600 to-gray-500 text-white px-6 py-3 rounded-xl hover:from-gray-500 hover:to-gray-400 cursor-pointer transition-all hover:scale-105 font-semibold"
               >
-                إلغاء
+                ❌ إلغاء
               </button>
             </div>
           </div>
@@ -647,61 +655,63 @@ export default function AdminDashboard() {
 
       {/* Modal الإضافة */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h3 className="text-xl font-bold mb-4">➕ إضافة لعبة جديدة</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-600 shadow-2xl">
+            <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 flex items-center gap-2">
+              ➕ إضافة لعبة جديدة
+            </h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-700 mb-2">اسم اللعبة *</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">اسم اللعبة *</label>
                 <input
                   type="text"
                   value={newGame.title || ''}
                   onChange={(e) => setNewGame({...newGame, title: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">الوصف *</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">الوصف *</label>
                 <textarea
                   value={newGame.description || ''}
                   onChange={(e) => setNewGame({...newGame, description: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                   rows={3}
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">رابط الصورة *</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">رابط الصورة *</label>
                 <input
                   type="url"
                   value={newGame.imageUrl || ''}
                   onChange={(e) => setNewGame({...newGame, imageUrl: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">رابط التحميل *</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">رابط التحميل *</label>
                 <input
                   type="url"
                   value={newGame.downloadLink || ''}
                   onChange={(e) => setNewGame({...newGame, downloadLink: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">الفئة *</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">الفئة *</label>
                 <select
                   value={newGame.category || 'ACTION'}
                   onChange={(e) => setNewGame({...newGame, category: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white focus:outline-none focus:border-cyan-500 transition-all"
                 >
                   <option value="ACTION">ألعاب أكشن</option>
                   <option value="WAR">ألعاب حرب</option>
@@ -716,33 +726,33 @@ export default function AdminDashboard() {
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">المنصات المدعومة</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">المنصات المدعومة</label>
                 <input
                   type="text"
                   value={newGame.platforms || ''}
                   onChange={(e) => setNewGame({...newGame, platforms: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 transition-all"
                   placeholder="Windows, Mac, Linux"
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">متطلبات التشغيل</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">متطلبات التشغيل</label>
                 <textarea
                   value={newGame.systemReqs || ''}
                   onChange={(e) => setNewGame({...newGame, systemReqs: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 transition-all"
                   rows={2}
                   placeholder="متطلبات النظام..."
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">مواصفات إضافية</label>
+                <label className="block text-cyan-400 mb-2 font-semibold">مواصفات إضافية</label>
                 <textarea
                   value={newGame.gameSpecs || ''}
                   onChange={(e) => setNewGame({...newGame, gameSpecs: e.target.value})}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-4 py-3 border-2 border-gray-600 rounded-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500 transition-all"
                   rows={2}
                   placeholder="معلومات إضافية..."
                 />
@@ -752,7 +762,7 @@ export default function AdminDashboard() {
             <div className="flex gap-4 mt-6">
               <button
                 onClick={handleAddGame}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 cursor-pointer"
+                className="btn-primary px-6 py-3"
                 disabled={!newGame.title || !newGame.description || !newGame.imageUrl || !newGame.downloadLink}
               >
                 ➕ إضافة اللعبة
@@ -768,9 +778,9 @@ export default function AdminDashboard() {
                   systemReqs: '',
                   gameSpecs: ''
                 });}}
-                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 cursor-pointer"
+                className="bg-gradient-to-r from-gray-600 to-gray-500 text-white px-6 py-3 rounded-xl hover:from-gray-500 hover:to-gray-400 cursor-pointer transition-all hover:scale-105 font-semibold"
               >
-                إلغاء
+                ❌ إلغاء
               </button>
             </div>
           </div>
@@ -779,11 +789,11 @@ export default function AdminDashboard() {
       
       {/* نظام الإشعارات */}
       {notification && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm ${
-          notification.type === 'success' ? 'bg-green-500 text-white' :
-          notification.type === 'error' ? 'bg-red-500 text-white' :
-          notification.type === 'warning' ? 'bg-yellow-500 text-black' :
-          'bg-blue-500 text-white'
+        <div className={`fixed top-4 right-4 z-50 p-6 rounded-2xl shadow-2xl max-w-sm border-2 neon-glow ${
+          notification.type === 'success' ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-green-400' :
+          notification.type === 'error' ? 'bg-gradient-to-r from-red-600 to-red-500 text-white border-red-400' :
+          notification.type === 'warning' ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white border-yellow-400' :
+          'bg-gradient-to-r from-blue-600 to-cyan-600 text-white border-blue-400'
         }`}>
           <div className="flex items-center gap-2">
             <span className="text-lg">
@@ -804,22 +814,22 @@ export default function AdminDashboard() {
       
       {/* نافذة التأكيد */}
       {confirmDialog?.show && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
-            <h3 className="text-lg font-bold mb-4 text-center">⚠️ تأكيد</h3>
-            <p className="text-gray-700 mb-6 text-center">{confirmDialog.message}</p>
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-2xl p-8 max-w-md mx-4 border border-gray-600 shadow-2xl">
+            <h3 className="text-xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">⚠️ تأكيد</h3>
+            <p className="text-gray-300 mb-8 text-center leading-relaxed">{confirmDialog.message}</p>
             <div className="flex gap-4 justify-center">
               <button
                 onClick={confirmDialog.onConfirm}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 cursor-pointer"
+                className="bg-gradient-to-r from-red-600 to-red-500 text-white px-6 py-3 rounded-xl hover:from-red-500 hover:to-red-400 cursor-pointer transition-all hover:scale-105 font-semibold"
               >
-                نعم
+                ✅ نعم
               </button>
               <button
                 onClick={() => setConfirmDialog(null)}
-                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 cursor-pointer"
+                className="bg-gradient-to-r from-gray-600 to-gray-500 text-white px-6 py-3 rounded-xl hover:from-gray-500 hover:to-gray-400 cursor-pointer transition-all hover:scale-105 font-semibold"
               >
-                إلغاء
+                ❌ إلغاء
               </button>
             </div>
           </div>

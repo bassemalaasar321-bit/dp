@@ -1,16 +1,13 @@
 import { NextResponse } from 'next/server';
-import { seedGames } from '@/lib/seedData';
 
 export async function POST() {
   try {
-    await seedGames();
+    // Seed functionality removed - using GitHub Database now
     return NextResponse.json({ 
-      success: true, 
-      message: 'تم إضافة 199 لعبة بنجاح!' 
+      message: 'Seed functionality not available with GitHub Database',
+      info: 'Games are now stored in GitHub repository'
     });
   } catch (error) {
-    return NextResponse.json({ 
-      error: 'فشل في إضافة الألعاب: ' + (error as Error).message 
-    }, { status: 500 });
+    return NextResponse.json({ error: 'Seed not available' }, { status: 501 });
   }
 }

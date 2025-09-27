@@ -1,28 +1,28 @@
 import { NextResponse } from 'next/server';
-import { searchGames } from '@/lib/jsonDb';
+import { githubDb } from '@/lib/githubDb';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q');
+    const query = searchParams.get('q') || '';
+    const category = searchParams.get('category') || '';
     
-    if (!query) {
-      return NextResponse.json({ error: 'Query required' }, { status: 400 });
-    }
+    const result = await githubDb.searchGames({
+      search: query,
+      category: category || undefined,
+      limit: 50
+    });
     
-    const result = searchGames({ search: query, limit: 100 });
-    const games = result.games.map(game => ({
-      id: game.id,
-      title: game.title,
-      category: game.category
-    }));
-    
-    return NextResponse.json({ 
-      found: games.length > 0,
-      count: games.length,
-      games: games 
+    return NextResponse.json({
+      games: result.games,
+      totalCount: result.totalCount
     });
   } catch (error) {
-    return NextResponse.json({ error: 'Search failed' }, { status: 500 });
+    console.error('Search error:', error);
+    return NextResponse.json({ 
+      games: [], 
+      totalCount: 0,
+      error: 'Failed to search games' 
+    }, { status: 500 });
   }
 }

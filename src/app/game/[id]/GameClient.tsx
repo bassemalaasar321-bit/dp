@@ -64,10 +64,10 @@ export default function GameClient({ params }: { params: Promise<{ id: string }>
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <div className="text-xl text-gray-700">جاري التحميل...</div>
+          <div className="w-16 h-16 border-4 border-cyan-200 border-t-cyan-600 rounded-full animate-spin mx-auto mb-4 neon-glow"></div>
+          <div className="text-xl text-white">🎮 جاري التحميل...</div>
         </div>
       </div>
     );
@@ -75,86 +75,60 @@ export default function GameClient({ params }: { params: Promise<{ id: string }>
 
   if (!game) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-xl">اللعبة غير موجودة</div>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">😞</div>
+          <div className="text-xl text-white">اللعبة غير موجودة</div>
+          <a href="/" className="btn-primary mt-4 inline-block">🏠 العودة للرئيسية</a>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-blue-900 text-white p-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-6">
+    <div className="min-h-screen bg-gray-900">
+      <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-green-500/10"></div>
+        <div className="container mx-auto relative z-10">
+          <div className="text-center mb-8">
             <a href="/" className="inline-block">
-              <h1 className="text-3xl font-bold hover:text-blue-200 transition-colors cursor-pointer">
+              <h1 className="text-5xl font-bold neon-text text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-green-400 hover:scale-105 transition-transform cursor-pointer">
                 🎮 تحميل العاب برو
               </h1>
             </a>
           </div>
           
-          <div className="max-w-2xl mx-auto mb-6">
-            <form onSubmit={(e) => { e.preventDefault(); window.location.href = `/?search=${encodeURIComponent((e.target as any).search.value)}`; }} className="relative">
+          <div className="max-w-xl mx-auto mb-8">
+            <form onSubmit={(e) => { e.preventDefault(); const searchValue = (e.target as any).search.value; if(searchValue.trim()) window.location.href = `/?search=${encodeURIComponent(searchValue.trim())}`; else window.location.href = '/'; }} className="relative">
               <input
                 name="search"
                 type="text"
                 placeholder="🔍 ابحث عن لعبتك المفضلة..."
-                className="w-full px-6 py-4 text-lg rounded-full border-2 border-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-white/70 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all"
+                className="w-full px-6 py-3 text-lg rounded-2xl border-2 border-gray-700 bg-gray-800/50 backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none search-glow transition-all duration-300"
               />
               <button
                 type="submit"
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-full transition-colors"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-black font-semibold px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105 neon-glow"
               >
-                بحث
+                🚀 بحث
               </button>
             </form>
           </div>
           
-          <div className="flex justify-center mb-4">
-            <nav className="hidden lg:flex gap-4 bg-blue-800 rounded-lg p-4">
-              <a href="/" className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 transition-colors text-white font-medium">
-                🎮 جميع الألعاب
-              </a>
-              <a href="/?category=ACTION" className="px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-white">ألعاب أكشن</a>
-              <a href="/?category=FOOTBALL" className="px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-white">ألعاب رياضة</a>
-              <a href="/?category=OPEN_WORLD" className="px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-white">ألعاب مغامرات</a>
-              <a href="/?category=HORROR" className="px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-white">ألعاب رعب</a>
-              <a href="/?category=WAR" className="px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-white">ألعاب حرب</a>
-            </nav>
-          </div>
+
           
-          <div className="flex justify-center mb-4">
-            <button 
-              className="lg:hidden bg-blue-800 px-4 py-2 rounded-lg cursor-pointer text-white"
-              onClick={() => { const menu = document.getElementById('mobile-menu'); menu?.classList.toggle('hidden'); }}
-            >
-              ☰ الفئات
-            </button>
-          </div>
-          
-          <div id="mobile-menu" className="hidden lg:hidden mb-4 bg-blue-800 rounded-lg p-4 space-y-2">
-            <a href="/" className="block w-full text-right py-3 px-4 rounded-lg bg-blue-700 hover:bg-blue-600 text-white font-medium">
-              🎮 جميع الألعاب
-            </a>
-            <a href="/?category=ACTION" className="block w-full text-right py-3 px-4 rounded-lg hover:bg-blue-600 text-white">ألعاب أكشن</a>
-            <a href="/?category=FOOTBALL" className="block w-full text-right py-3 px-4 rounded-lg hover:bg-blue-600 text-white">ألعاب رياضة</a>
-            <a href="/?category=OPEN_WORLD" className="block w-full text-right py-3 px-4 rounded-lg hover:bg-blue-600 text-white">ألعاب مغامرات</a>
-            <a href="/?category=HORROR" className="block w-full text-right py-3 px-4 rounded-lg hover:bg-blue-600 text-white">ألعاب رعب</a>
-            <a href="/?category=WAR" className="block w-full text-right py-3 px-4 rounded-lg hover:bg-blue-600 text-white">ألعاب حرب</a>
-          </div>
-          
-          <nav className="mb-2 text-sm">
-            <ol className="flex items-center space-x-2 rtl:space-x-reverse justify-center">
+          <nav className="mb-4 text-sm">
+            <ol className="flex items-center space-x-2 rtl:space-x-reverse justify-center bg-gray-800/50 rounded-2xl p-4 backdrop-blur-sm">
               <li>
-                <a href="/" className="text-blue-200 hover:text-white">
-                  الرئيسية
+                <a href="/" className="text-cyan-400 hover:text-white transition-colors flex items-center gap-1">
+                  🏠 الرئيسية
                 </a>
               </li>
-              <li className="text-blue-300">/</li>
+              <li className="text-gray-500">❯</li>
               <li>
-                <span className="text-blue-200">{categoryNames[game.category]}</span>
+                <span className="text-purple-400">{categoryNames[game.category]}</span>
               </li>
-              <li className="text-blue-300">/</li>
+              <li className="text-gray-500">❯</li>
               <li>
                 <span className="text-white font-medium">{game.title}</span>
               </li>
@@ -164,59 +138,70 @@ export default function GameClient({ params }: { params: Promise<{ id: string }>
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
+        <div className="card max-w-4xl mx-auto">
           <div className="p-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center break-words">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mb-8 text-center break-words">
               {game.title}
             </h1>
             
-            <div className="mb-8 text-center">
-              <img 
-                src={game.imageUrl} 
-                alt={game.title}
-                loading="eager"
-                decoding="async"
-                className="w-full max-w-2xl mx-auto rounded-lg shadow-md"
-                style={{ contentVisibility: 'auto' }}
-              />
+            <div className="mb-8 text-center relative">
+              <div className="relative overflow-hidden rounded-2xl max-w-2xl mx-auto">
+                <img 
+                  src={game.imageUrl} 
+                  alt={game.title}
+                  loading="eager"
+                  decoding="async"
+                  className="w-full rounded-2xl shadow-2xl border border-gray-700 hover:scale-105 transition-transform duration-500"
+                  style={{ contentVisibility: 'auto' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-2xl"></div>
+              </div>
             </div>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">وصف اللعبة</h2>
-              <p className="text-gray-600 text-lg leading-relaxed break-words">
-                {game.description}
-              </p>
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 mb-6 flex items-center gap-2">
+                📖 وصف اللعبة
+              </h2>
+              <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-2xl border border-gray-600">
+                <p className="text-gray-300 text-lg leading-relaxed break-words">
+                  {game.description}
+                </p>
+              </div>
             </div>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">مواصفات اللعبة</h2>
-              <div className="bg-gray-50 rounded-lg p-6">
-                <table className="w-full">
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="py-3 px-4 font-bold text-gray-700 bg-gray-100 break-words">الفئة</td>
-                      <td className="py-3 px-4 break-words">{categoryNames[game.category]}</td>
-                    </tr>
-                    {game.platforms && (
-                      <tr className="border-b">
-                        <td className="py-3 px-4 font-bold text-gray-700 bg-gray-100 break-words">المنصات المدعومة</td>
-                        <td className="py-3 px-4 break-words overflow-wrap-anywhere">{game.platforms}</td>
-                      </tr>
-                    )}
-                    {game.systemReqs && (
-                      <tr className="border-b">
-                        <td className="py-3 px-4 font-bold text-gray-700 bg-gray-100 break-words">متطلبات التشغيل</td>
-                        <td className="py-3 px-4 whitespace-pre-line break-words">{game.systemReqs}</td>
-                      </tr>
-                    )}
-                    {game.gameSpecs && (
-                      <tr>
-                        <td className="py-3 px-4 font-bold text-gray-700 bg-gray-100 break-words">مواصفات إضافية</td>
-                        <td className="py-3 px-4 whitespace-pre-line break-words">{game.gameSpecs}</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-6 flex items-center gap-2">
+                ⚙️ مواصفات اللعبة
+              </h2>
+              <div className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-2xl p-6 border border-gray-600">
+                <div className="space-y-4">
+                  <div className="flex flex-col md:flex-row md:items-center gap-2">
+                    <span className="font-bold text-cyan-400 min-w-[150px]">🎯 الفئة:</span>
+                    <span className="text-gray-300">{categoryNames[game.category]}</span>
+                  </div>
+                  {game.platforms && (
+                    <div className="flex flex-col md:flex-row md:items-center gap-2">
+                      <span className="font-bold text-cyan-400 min-w-[150px]">💻 المنصات:</span>
+                      <span className="text-gray-300">{game.platforms}</span>
+                    </div>
+                  )}
+                  {game.systemReqs && (
+                    <div className="flex flex-col gap-2">
+                      <span className="font-bold text-cyan-400">🔧 متطلبات التشغيل:</span>
+                      <div className="bg-gray-900 p-4 rounded-xl border border-gray-600">
+                        <pre className="text-gray-300 whitespace-pre-line break-words text-sm">{game.systemReqs}</pre>
+                      </div>
+                    </div>
+                  )}
+                  {game.gameSpecs && (
+                    <div className="flex flex-col gap-2">
+                      <span className="font-bold text-cyan-400">📋 مواصفات إضافية:</span>
+                      <div className="bg-gray-900 p-4 rounded-xl border border-gray-600">
+                        <pre className="text-gray-300 whitespace-pre-line break-words text-sm">{game.gameSpecs}</pre>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -226,39 +211,47 @@ export default function GameClient({ params }: { params: Promise<{ id: string }>
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleDownloadClick}
-                className="bg-green-600 text-white px-8 py-4 rounded-lg text-xl font-bold hover:bg-green-700 transition-colors inline-block cursor-pointer"
+                className="btn-primary text-2xl px-12 py-6 inline-flex items-center gap-3 hover:scale-110 transition-all duration-300"
               >
                 💾 تحميل اللعبة الآن
               </a>
             </div>
 
-            <div className="border-t pt-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">ألعاب مشابهة ({similarGames.length})</h2>
+            <div className="border-t border-gray-700 pt-8">
+              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-8 text-center flex items-center justify-center gap-2">
+                🎮 ألعاب مشابهة ({similarGames.length})
+              </h2>
               {similarGames.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {similarGames.map((similarGame) => (
-                  <div key={similarGame.id} className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
-                    <img 
-                      src={similarGame.imageUrl} 
-                      alt={similarGame.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-24 object-cover rounded mb-3"
-                      style={{ contentVisibility: 'auto' }}
-                    />
-                    <h3 className="font-bold text-gray-800 mb-2 text-sm break-words">{similarGame.title}</h3>
-                    <p className="text-gray-600 text-xs mb-3 line-clamp-2 break-words">{similarGame.description}</p>
+                  <div key={similarGame.id} className="bg-gradient-to-b from-gray-800 to-gray-700 rounded-2xl p-6 hover:scale-105 transition-all duration-300 border border-gray-600 group">
+                    <div className="relative overflow-hidden rounded-xl mb-4">
+                      <img 
+                        src={similarGame.imageUrl} 
+                        alt={similarGame.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-500"
+                        style={{ contentVisibility: 'auto' }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <h3 className="font-bold text-white mb-3 text-sm break-words group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-400 transition-all">{similarGame.title}</h3>
+                    <p className="text-gray-400 text-xs mb-4 line-clamp-2 break-words">{similarGame.description}</p>
                     <a 
                       href={`/game/${similarGame.id}`}
-                      className="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors inline-block w-full text-center"
+                      className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all inline-block w-full text-center hover:scale-105"
                     >
-                      عرض التفاصيل
+                      🎯 عرض التفاصيل
                     </a>
                   </div>
                 ))}
               </div>
               ) : (
-                <p className="text-center text-gray-500">لا توجد ألعاب مشابهة</p>
+                <div className="text-center py-8">
+                  <div className="text-4xl mb-4">🎮</div>
+                  <p className="text-gray-400">لا توجد ألعاب مشابهة حالياً</p>
+                </div>
               )}
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { searchGames, addGame } from '@/lib/jsonDb';
+import { githubDb } from '@/lib/githubDb';
 
 export async function GET(request: Request) {
   try {
@@ -13,33 +13,39 @@ export async function GET(request: Request) {
     const options = {
       search: search || undefined,
       category: category || undefined,
-      exclude: exclude ? parseInt(exclude) : undefined,
       page: page ? parseInt(page) : 1,
       limit: limit ? parseInt(limit) : 12
     };
 
-    const result = searchGames(options);
+    const result = await githubDb.searchGames(options);
+    
+    let games = result.games;
+    
+    // فلترة exclude
+    if (exclude) {
+      games = games.filter(game => game.id !== parseInt(exclude));
+    }
 
     // إذا كان هناك pagination
     if (page && limit) {
       return NextResponse.json({
-        games: result.games,
+        games: games,
         totalPages: result.totalPages,
         currentPage: parseInt(page),
         totalCount: result.totalCount
       });
     }
 
-    // بدون pagination (للألعاب المشابهة)
-    return NextResponse.json(result.games);
+    // بدون pagination
+    return NextResponse.json(games);
   } catch (error) {
-    console.error('JSON DB error:', error);
+    console.error('GitHub DB error:', error);
     return NextResponse.json({ 
       games: [], 
       totalPages: 0, 
       currentPage: 1, 
       totalCount: 0,
-      error: 'Failed to fetch games' 
+      error: 'Failed to fetch games: ' + (error as Error).message 
     }, { status: 500 });
   }
 }
@@ -49,7 +55,11 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { title, description, imageUrl, downloadLink, category, platforms, systemReqs, gameSpecs } = body;
 
-    const newGame = addGame({
+    if (!title || !description || !imageUrl || !downloadLink || !category) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    const newGame = await githubDb.addGame({
       title,
       description,
       imageUrl,
@@ -62,7 +72,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(newGame);
   } catch (error) {
-    console.error('JSON DB error:', error);
+    console.error('GitHub DB error:', error);
     return NextResponse.json({ error: 'Failed to create game: ' + (error as Error).message }, { status: 500 });
   }
 }

@@ -1,17 +1,14 @@
 import { NextResponse } from 'next/server';
-import { searchGames, addGame } from '@/lib/jsonDb';
-import fs from 'fs';
-import path from 'path';
+import { githubDb } from '@/lib/githubDb';
 
 export async function GET() {
   try {
-    const result = searchGames({ limit: 10000 });
+    const allGames = await githubDb.searchGames({ limit: 10000 });
     
     const backup = {
       timestamp: new Date().toISOString(),
-      version: '2.0',
-      totalGames: result.totalCount,
-      games: result.games
+      totalGames: allGames.totalCount,
+      games: allGames.games
     };
     
     return NextResponse.json(backup);
@@ -24,50 +21,13 @@ export async function POST(request: Request) {
   try {
     const backupData = await request.json();
     
-    if (!backupData.games || !Array.isArray(backupData.games)) {
-      return NextResponse.json({ error: 'Invalid backup format' }, { status: 400 });
-    }
-    
-    // حذف جميع ملفات JSON
-    const dataDir = path.join(process.cwd(), 'data');
-    if (fs.existsSync(dataDir)) {
-      const files = fs.readdirSync(dataDir);
-      files.forEach(file => {
-        if (file.startsWith('games-') && file.endsWith('.json')) {
-          fs.unlinkSync(path.join(dataDir, file));
-        }
-      });
-    }
-
-    // إعادة إنشاء الفهرس
-    const indexPath = path.join(dataDir, 'index.json');
-    const newIndex = {
-      totalGames: 0,
-      filesCount: 0,
-      lastFileNumber: 0,
-      nextId: 1,
-      gamesPerFile: 200
-    };
-    fs.writeFileSync(indexPath, JSON.stringify(newIndex, null, 2));
-    
-    // إضافة الألعاب من الـ backup
-    for (const game of backupData.games) {
-      addGame({
-        title: game.title,
-        description: game.description,
-        imageUrl: game.imageUrl,
-        downloadLink: game.downloadLink,
-        category: game.category,
-        platforms: game.platforms,
-        systemReqs: game.systemReqs,
-        gameSpecs: game.gameSpecs
-      });
-    }
+    // في هذا النظام المبسط، لا يمكن استعادة البيانات بشكل كامل
+    // لأن البيانات محفوظة في الذاكرة/localStorage
     
     return NextResponse.json({ 
-      success: true, 
-      message: `تم استعادة ${backupData.games.length} لعبة بنجاح` 
-    });
+      message: 'النسخ الاحتياطي غير مدعوم في هذا النظام المؤقت',
+      error: 'Restore not supported in temporary system'
+    }, { status: 501 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to restore backup' }, { status: 500 });
   }

@@ -12,20 +12,38 @@ const categories = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white mt-12">
-      <div className="container mx-auto px-4 py-8">
+    <footer className="bg-gradient-to-t from-black via-gray-900 to-gray-800 text-white mt-12 border-t border-gray-700">
+      <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* معلومات الموقع */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <img src="/icon.jpg" alt="Logo" className="w-8 h-8 rounded-lg" />
-              <h3 className="text-xl font-bold">تحميل العاب برو</h3>
+            <div className="flex items-center gap-3 mb-6">
+              <img src="/icon.jpg" alt="Logo" className="w-10 h-10 rounded-xl border-2 border-cyan-500 neon-glow" />
+              <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                تحميل العاب برو
+              </h3>
             </div>
-            <p className="text-gray-300 mb-4">
-              كل ما تحتاجه من ألعاب الكمبيوتر في مكان واحد. 
-              اكتشف أحدث الألعاب وحمل مجاناً.
+            <p className="text-gray-300 mb-6 leading-relaxed">
+              🚀 كل ما تحتاجه من ألعاب الكمبيوتر في مكان واحد. 
+              اكتشف أحدث الألعاب وحمل مجاناً بأعلى جودة.
             </p>
+            
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-4 mb-6">
+              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+                📘
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-r from-red-600 to-red-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+                📺
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+                🎵
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+                🎮
+              </a>
+            </div>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <span>👨‍💻</span>
               <span>تطوير:</span>
@@ -33,12 +51,12 @@ export default function Footer() {
                 href="https://www.facebook.com/fawy.maly" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 transition-colors cursor-pointer underline flex items-center gap-2"
+                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 hover:from-purple-400 hover:to-cyan-400 transition-all cursor-pointer underline flex items-center gap-2 font-semibold"
               >
                 <img 
                   src="/icon.jpg" 
                   alt="Fawy Maly" 
-                  className="w-6 h-6 rounded-full object-cover border-2 border-blue-400"
+                  className="w-6 h-6 rounded-full object-cover border-2 border-cyan-400 neon-glow"
                 />
                 <span>Fawy Maly</span>
               </a>
