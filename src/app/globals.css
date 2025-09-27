@@ -122,7 +122,7 @@ body {
                 linear-gradient(45deg, #facc15, #f97316, #facc15, #f97316) border-box;
     box-shadow: 0 0 8px rgba(250, 204, 21, 0.2);
   }
-  50% {
+  40% {
     background: linear-gradient(145deg, #1A1A1A, #0F0F0F) padding-box,
                 linear-gradient(45deg, #f97316, #facc15, #f97316, #facc15) border-box;
     box-shadow: 0 0 12px rgba(249, 115, 22, 0.25);
